@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState, createContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, createSwitchNavigator, createAppContainer, createNavigatorFactory } from '@react-navigation/native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Button } from 'react-native';
 import { auth, store } from './firebase.js';
 
@@ -96,17 +97,17 @@ export default function AuthNavigator() {
         addUser(null)
     }
 
-    return user ? (
-    <MyTabs
-      user={user}
-      logout={logout}
-      onStateChange={(state) =>
-        console.log("CHANGED", state)
-      }
-     />
-  ) : (
-    <MyStack login={login} />
-  )
+    return ( // user ? (
+      <MyTabs
+        user={user}
+        logout={logout}
+        onStateChange={(state) =>
+          console.log("CHANGED", state)
+        }
+      />
+    ) //  : (
+    //   <MyStack login={login} />
+    // )
 }
 
 const AuthStack = createStackNavigator();
@@ -161,15 +162,15 @@ function MyTabs(props) {
           name="Accept Food"
           component={AcceptFood}
           initialParams={{user: props.user, logout: props.logout}}
-          options={{
+          options={({ navigation }) => ({
             headerRight: () => (
               <Button
-                onPress={() => alert('This is a button!')}
+                onPress={() => navigation.navigate('MapScreen')} // Navigate to the MapScreen
                 title="map"
                 color="black"
               />
             ),
-          }}
+          })}
     
         />
         <AppStack.Screen
@@ -187,7 +188,28 @@ function MyTabs(props) {
           component={DonationScreen}
           initialParams={{user: props.user, logout: props.logout}}
         />
+        <AppStack.Screen 
+          name="MapScreen" 
+          component={MapScreen} 
+        />
       </AppStack.Navigator>
     </NavigationContainer>
     );
+}
+
+function MapScreen() {
+  return (
+    <View style={{ flex: 1 }}>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+    </View>
+  );
 }

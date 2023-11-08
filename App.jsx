@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState, createContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, createSwitchNavigator, createAppContainer, createNavigatorFactory } from '@react-navigation/native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Button } from 'react-native';
 import { auth, store } from './firebase.js';
 
@@ -198,6 +198,65 @@ function MyTabs(props) {
 }
 
 function MapScreen() {
+  const reports = [
+    {
+      condition: 'Bad',
+      dateCreated: '',
+      deliverable: false,
+      email: 'test@gmail.com',
+      endDate: '',
+      groupID: 927271,
+      latLng: {
+        lat: 37.78825,
+        lng: -122.4324,
+      },
+      phoneNumber: '',
+      picture: ''
+    },
+    {
+      condition: 'Good',
+      dateCreated: '',
+      deliverable: false,
+      email: 'test@gmail.com',
+      endDate: '',
+      groupID: 927271,
+      latLng: {
+        lat: 37.79825,
+        lng: -122.4424,
+      },
+      phoneNumber: '',
+      picture: ''
+    },
+    {
+      condition: 'Worse',
+      dateCreated: '',
+      deliverable: false,
+      email: 'test@gmail.com',
+      endDate: '',
+      groupID: 927271,
+      latLng: {
+        lat: 37.80825,
+        lng: -122.4324,
+      },
+      phoneNumber: '',
+      picture: ''
+    },
+    {
+      condition: 'Better',
+      dateCreated: '',
+      deliverable: false,
+      email: 'test@gmail.com',
+      endDate: '',
+      groupID: 927271,
+      latLng: {
+        lat: 37.79825,
+        lng: -122.4224,
+      },
+      phoneNumber: '',
+      picture: ''
+    },
+  ]
+  
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -209,7 +268,15 @@ function MapScreen() {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-      />
+      >
+        {reports.map((report, index) => (
+          <Marker
+            key={index}
+            coordinate={{latitude:report.latLng.lat, longitude:report.latLng.lng}}
+            title={report.condition}
+          />
+        ))}
+      </MapView>
     </View>
   );
 }

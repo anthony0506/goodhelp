@@ -1,10 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState, createContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, createSwitchNavigator, createAppContainer, createNavigatorFactory } from '@react-navigation/native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { Button } from 'react-native';
 import { auth, store } from './firebase.js';
 
@@ -22,6 +20,8 @@ import DonationScreen from './src/screens/DonationScreen'
 import HomeScreen from './src/screens/HomeScreen'
 import LoginScreen from './src/screens/LoginScreen'
 import RegisterScreen from './src/screens/RegisterScreen'
+
+import MapScreen from './src/screens/MapScreen'
 
 export default function AuthNavigator() {
 
@@ -171,7 +171,6 @@ function MyTabs(props) {
               />
             ),
           })}
-    
         />
         <AppStack.Screen
           name="Accept Clothes"
@@ -190,93 +189,9 @@ function MyTabs(props) {
         />
         <AppStack.Screen 
           name="MapScreen" 
-          component={MapScreen} 
+          component={MapScreen}
         />
       </AppStack.Navigator>
     </NavigationContainer>
     );
-}
-
-function MapScreen() {
-  const reports = [
-    {
-      condition: 'Bad',
-      dateCreated: '',
-      deliverable: false,
-      email: 'test@gmail.com',
-      endDate: '',
-      groupID: 927271,
-      latLng: {
-        lat: 37.78825,
-        lng: -122.4324,
-      },
-      phoneNumber: '',
-      picture: ''
-    },
-    {
-      condition: 'Good',
-      dateCreated: '',
-      deliverable: false,
-      email: 'test@gmail.com',
-      endDate: '',
-      groupID: 927271,
-      latLng: {
-        lat: 37.79825,
-        lng: -122.4424,
-      },
-      phoneNumber: '',
-      picture: ''
-    },
-    {
-      condition: 'Worse',
-      dateCreated: '',
-      deliverable: false,
-      email: 'test@gmail.com',
-      endDate: '',
-      groupID: 927271,
-      latLng: {
-        lat: 37.80825,
-        lng: -122.4324,
-      },
-      phoneNumber: '',
-      picture: ''
-    },
-    {
-      condition: 'Better',
-      dateCreated: '',
-      deliverable: false,
-      email: 'test@gmail.com',
-      endDate: '',
-      groupID: 927271,
-      latLng: {
-        lat: 37.79825,
-        lng: -122.4224,
-      },
-      phoneNumber: '',
-      picture: ''
-    },
-  ]
-  
-  return (
-    <View style={{ flex: 1 }}>
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        {reports.map((report, index) => (
-          <Marker
-            key={index}
-            coordinate={{latitude:report.latLng.lat, longitude:report.latLng.lng}}
-            title={report.condition}
-          />
-        ))}
-      </MapView>
-    </View>
-  );
 }

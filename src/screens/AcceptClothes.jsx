@@ -15,13 +15,11 @@ export default function AcceptClothes(props) {
 
   const setClothes = async function(){
     const querySnapshot = await getDocs(collection(firestore, "clothes"));
-    querySnapshot.forEach((doc) => {
-      setLIST(LIST => [...LIST, doc.data()])
-    });
+    const newList = querySnapshot.docs.map((doc) => doc.data());
+    setLIST(newList);
   }
 
   useEffect(()=> {
-    setLIST([])
     setClothes()
   },[])
 
